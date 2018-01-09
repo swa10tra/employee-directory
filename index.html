@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+
+		<script src="resources/sap-ui-core.js"
+				id="sap-ui-bootstrap"
+				data-sap-ui-libs="sap.m,sap.ui.layout,sap.ui.commons"
+				data-sap-ui-theme="sap_bluecrystal">
+		</script>
+
+		<script>
+				var oBar = new sap.m.Bar( {
+				    contentLeft : [ new sap.ui.commons.Image( {
+				          src : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/2000px-IBM_logo.svg.png",
+				          height : "45px"
+				     }) ],
+				     contentMiddle : [ new sap.m.Label( {
+				          text : "EMPLOYEE DIRECTORY",
+				          textAlign : "Left",
+				          design : "Bold"
+				     }) ]
+				});
+				oBar.placeAt("content");
+				
+				sap.ui.localResources("employee_details");
+				var url = "proxy/http/appsvr3.saphana.sl.edst.ibm.com:8000/sap/opu/odata/SAP/ZGW_EMP_SRV_01";
+				oModel = new sap.ui.model.odata.v2.ODataModel(url);
+				sap.ui.getCore().setModel(oModel);
+				
+				
+				var app = new sap.m.SplitApp("splitApp",{mode:sap.m.SplitAppMode.ShowHideMode});
+				//Master Page
+				var master = sap.ui.view({id:"masterPage", viewName:"employee_details.master", type:sap.ui.core.mvc.ViewType.JS});
+				app.addMasterPage(master);
+				//Details Page
+				var detail = sap.ui.view({id:"detailPage", viewName:"employee_details.detail", type:sap.ui.core.mvc.ViewType.JS});
+				app.addDetailPage(detail);
+				
+				app.placeAt("content");
+		</script>
+
+	</head>
+	<body class="sapUiBody" role="application">
+		<div id="content"></div>
+	</body>
+</html>
